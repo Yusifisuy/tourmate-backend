@@ -7,10 +7,7 @@ import az.tourmate.services.security.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -22,6 +19,16 @@ public class AuthController {
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @PostMapping("/v2/sign-up")
+    public ResponseEntity<String> signUpUser(@RequestBody RegisterRequest request){
+        return ResponseEntity.ok(authService.registerUser(request));
+    }
+
+    @PostMapping("/confirm/{email}")
+    public ResponseEntity<AuthenticationResponse> confirmUser(@PathVariable("email") String email){
+        return ResponseEntity.ok(authService.confirmUser(email));
     }
 
 

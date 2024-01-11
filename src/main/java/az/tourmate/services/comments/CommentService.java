@@ -9,7 +9,6 @@ import az.tourmate.repositories.branch.BranchRepository;
 import az.tourmate.utils.ExceptionTexts;
 import az.tourmate.utils.UserUtil;
 import org.springframework.stereotype.Service;
-
 import java.security.Principal;
 
 @Service

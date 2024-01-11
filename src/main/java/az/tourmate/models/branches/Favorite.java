@@ -1,24 +1,21 @@
-package az.tourmate.models.order;
+package az.tourmate.models.branches;
 
-import az.tourmate.models.room.Room;
 import az.tourmate.models.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "favorites")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order {
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,22 +28,11 @@ public class Order {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "room_id",referencedColumnName = "id")
-    private Room room;
-
-    private boolean active;
-
-    private Integer count;
-
-    private Date entryDate;
-
-    private Date exitDate;
-
-    private Double amount;
+    @JoinColumn(name = "branch_id",referencedColumnName = "id")
+    private Branch branch;
 
     @CreationTimestamp
     private Date creationTime;
 
-    @UpdateTimestamp
-    private Date lastUpdate;
+    private boolean active;
 }

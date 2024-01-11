@@ -18,10 +18,10 @@ public class ImageMapper {
 
 
     public static List<BranchImageDto> mapImageListToDto(List<BranchImage> imageList){
-        return imageList.stream().map(image -> new BranchImageDto(branchImageLink+image.getFileName())).toList();
+        return imageList.stream().map(image -> new BranchImageDto("https://tourmate.s3.eu-central-1.amazonaws.com/"+image.getFileName())).toList();
     }
 
     public static List<RoomImageDto> mapRoomImageListToDto(List<RoomImage> images){
-        return images.stream().map(image -> new RoomImageDto(roomImageLink+image.getFileName())).toList();
+        return images.stream().map(image -> new RoomImageDto("https://tourmaterooms.s3.eu-central-1.amazonaws.com/"+image.getFileName())).toList();
     }
 }

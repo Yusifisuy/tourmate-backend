@@ -13,6 +13,7 @@ import az.tourmate.models.address.Address;
 import az.tourmate.models.address.City;
 import az.tourmate.models.address.Country;
 import az.tourmate.models.branches.Branch;
+import az.tourmate.models.branches.Favorite;
 import az.tourmate.models.comment.BranchComment;
 import az.tourmate.models.files.BranchProfile;
 import az.tourmate.models.scores.Score;
@@ -21,9 +22,9 @@ import az.tourmate.repositories.address.AddressRepository;
 import az.tourmate.repositories.address.CityRepository;
 import az.tourmate.repositories.address.CountryRepository;
 import az.tourmate.repositories.branch.BranchRepository;
+import az.tourmate.repositories.branch.FavoriteRepository;
 import az.tourmate.repositories.file.BranchProfileRepository;
 import az.tourmate.repositories.file.UserProfileRepository;
-import az.tourmate.repositories.user.UserRepository;
 import az.tourmate.utils.ExceptionTexts;
 import az.tourmate.utils.UserUtil;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BranchService {
@@ -39,20 +41,20 @@ public class BranchService {
     private final AddressRepository addressRepository;
     private final CountryRepository countryRepository;
     private final CityRepository cityRepository;
-    private final UserRepository userRepository;
     private final BranchProfileRepository branchProfileRepository;
     private final UserProfileRepository userProfileRepository;
+    private final FavoriteRepository favoriteRepository;
 
     public BranchService(BranchRepository branchRepository, AddressRepository addressRepository,
-                         CountryRepository countryRepository, CityRepository cityRepository, UserRepository userRepository,
-                         BranchProfileRepository branchProfileRepository, UserProfileRepository userProfileRepository) {
+                         CountryRepository countryRepository, CityRepository cityRepository,
+                         BranchProfileRepository branchProfileRepository, UserProfileRepository userProfileRepository, FavoriteRepository favoriteRepository) {
         this.branchRepository = branchRepository;
         this.addressRepository = addressRepository;
         this.countryRepository = countryRepository;
         this.cityRepository = cityRepository;
-        this.userRepository = userRepository;
         this.branchProfileRepository = branchProfileRepository;
         this.userProfileRepository = userProfileRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
     public BranchGetDto createBranch(CreateBranchDto branchDto, Long hotelId, Principal connectedUser){
@@ -117,6 +119,8 @@ public class BranchService {
 
 
 
+
+
     public void deleteBranch(Principal connectedUser,Long branchId){
         Branch branch = branchRepository.findByIdAndActiveIsTrue(branchId)
                 .orElseThrow(()-> new BranchIsNotFoundException(ExceptionTexts.BRANCH_NOT_FOUND));
@@ -147,24 +151,21 @@ public class BranchService {
         }
     }
 
-    public boolean addToFavorites(Principal connectedUser, Long branchId){
-        List<Branch> branchList = new ArrayList<>();
+
+    public void clickFavorite(Principal connectedUser,Long branchId){
         var user = UserUtil.getConnectedUser(connectedUser);
         Branch branch = branchRepository.findByIdAndActiveIsTrue(branchId)
                 .orElseThrow(() -> new BranchIsNotFoundException("Belə bir filial yoxdur"));
-        branchList.add(branch);
-        if (user.getFavorites()==null){
-            user.setFavorites(branchList);
+
+        Optional<Favorite> opsiyonel = favoriteRepository.findByBranchAndUser(branch,user);
+        if (opsiyonel.isEmpty()){
+            Favorite favorite = Favorite.builder().branch(branch).user(user).active(true).build();
+            favoriteRepository.save(favorite);
         }
         else {
-            List<Branch> userFavs = user.getFavorites();
-            userFavs.add(branch);
-            user.setFavorites(userFavs);
+            opsiyonel.get().setActive(false);
+            favoriteRepository.save(opsiyonel.get());
         }
-
-        userRepository.save(user);
-
-        return true;
     }
 
 

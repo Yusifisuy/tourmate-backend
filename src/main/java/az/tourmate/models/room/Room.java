@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Room {
+public class Room{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

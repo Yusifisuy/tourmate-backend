@@ -1,7 +1,8 @@
-package az.tourmate.models.order;
+package az.tourmate.models.user;
+
 
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +15,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@RedisHash("Session")
-public class Session implements Serializable {
+@RedisHash("usersession")
+public class UserSession implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private OrderSession order;
+    @Id
+    private String emailId;
+    private UserSessionRequest sessionRequest;
 
 }

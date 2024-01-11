@@ -1,4 +1,4 @@
-package az.tourmate.models.token;
+package az.tourmate.models.user.token;
 
 import az.tourmate.models.user.User;
 import jakarta.persistence.*;

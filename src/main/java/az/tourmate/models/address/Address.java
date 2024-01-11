@@ -33,7 +33,7 @@ public class Address {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @JoinColumn(name = "country_id",referencedColumnName = "id")
     private Country country;
 
     @JsonIgnore

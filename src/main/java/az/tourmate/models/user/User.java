@@ -1,6 +1,8 @@
 package az.tourmate.models.user;
 
+import az.tourmate.models.address.Address;
 import az.tourmate.models.branches.Branch;
+import az.tourmate.models.branches.Favorite;
 import az.tourmate.models.comment.BranchComment;
 import az.tourmate.models.files.UserProfile;
 import az.tourmate.models.management.Management;
@@ -48,8 +50,6 @@ public class User implements UserDetails {
     @NotBlank(message = "password is required")
     private String password;
 
-    private String address;
-
     @NotBlank(message = "phone number is required")
     private String phoneNumber;
     private String citizen;
@@ -66,7 +66,7 @@ public class User implements UserDetails {
     private Date lastUpdate;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private List<Branch> favorites;
+    private List<Favorite> favorites;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Score> scores;
@@ -81,11 +81,14 @@ public class User implements UserDetails {
     private List<Order> orders;
 
     @JsonIgnore
+    @OneToOne(targetEntity = Address.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "address_id")
+    private Address address;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "management_id",referencedColumnName = "id")
     private Management management;
-
-
 
 
     @Override

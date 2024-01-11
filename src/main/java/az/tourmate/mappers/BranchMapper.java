@@ -2,6 +2,7 @@ package az.tourmate.mappers;
 
 import az.tourmate.dtos.branches.BranchGetDto;
 import az.tourmate.dtos.branches.BranchSortDto;
+import az.tourmate.dtos.images.BranchImageDto;
 import az.tourmate.models.branches.Branch;
 import az.tourmate.models.room.Room;
 import az.tourmate.models.scores.Score;
@@ -14,6 +15,13 @@ public class BranchMapper {
 
     @Value("${application.bucket.branch-profile-link}")
     private static String branchProfileLink;
+
+
+    @Value("${application.bucket.name-link}")
+    private String branchImageLink;
+
+    @Value("${application.bucket.rooms-link}")
+    private String roomImageLink;
 
     public static List<BranchGetDto> mapBranchListToDto(List<Branch> branches,String fileName){
         return branches.stream().map(branch ->

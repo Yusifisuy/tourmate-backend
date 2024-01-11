@@ -1,4 +1,4 @@
-package az.tourmate.models.token;
+package az.tourmate.models.user.token;
 
 public enum TokenType {
 

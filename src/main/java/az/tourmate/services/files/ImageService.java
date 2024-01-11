@@ -281,6 +281,9 @@ public class ImageService {
     }
 
     private boolean checkIfUserHasAccessToRoom(User user, Room room){
+        log.info("ROOM BRANCH :" + room.getBranch());
+        log.info("ROOM BRANCH NAME:"+room.getBranch().getName());
+        log.info("USER BRANCHES:"+ user.getManagement().getBranches());
         return user.getManagement().getBranches().contains(room.getBranch());
     }
 

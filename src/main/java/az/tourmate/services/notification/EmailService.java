@@ -21,13 +21,13 @@ public class EmailService {
 
 
     public void sendSimpleEmail(String toEmail,
-                                String body,
+                                String link,
                                 String subject) {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setFrom(fromMail);
         message.setTo(toEmail);
-        message.setText(body);
+        message.setText(link);
         message.setSubject(subject);
 
         mailSender.send(message);

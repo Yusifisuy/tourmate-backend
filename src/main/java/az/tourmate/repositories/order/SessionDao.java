@@ -1,4 +1,4 @@
-package az.tourmate.repositories.dao;
+package az.tourmate.repositories.order;
 
 import az.tourmate.models.order.Session;
 import lombok.RequiredArgsConstructor;

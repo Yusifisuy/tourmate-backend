@@ -35,8 +35,8 @@ public class BranchController {
 
 
     @PostMapping("/{branchId}/favorite")
-    public ResponseEntity<Boolean> favoriteBranch(@PathVariable("branchId") Long branchId, Principal connectedUser){
-        return ResponseEntity.ok(branchService.addToFavorites(connectedUser,branchId));
+    public void favoriteBranch(@PathVariable("branchId") Long branchId, Principal connectedUser){
+        branchService.clickFavorite(connectedUser,branchId);
     }
 
 
